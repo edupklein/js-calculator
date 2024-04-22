@@ -1,12 +1,19 @@
 class CalcController {
 
+    // Display element that display the numbers of the calculator 
     #calcDisplayEl;
+    // Date element being displayed in the calculator
     #dateEl;
+    // Time element being displayed in the calculator
     #hourEl;
+    // The setting to format the displayed Date and Time
     #locale;
+    // List containing all operations executed in the calculator 
+    #operations;
 
     constructor() {
         
+        this.#operations = [];
         this.#locale = "en-US";
         /**
          * Note that document.getElementById would work the same way
@@ -16,9 +23,10 @@ class CalcController {
         this.#calcDisplayEl = document.querySelector("#display");
         this.#dateEl = document.querySelector("#date");
         this.#hourEl = document.querySelector("#hour");
-
+        // Function to initialize the elements such as Date and Hour
         this.initialize();
-        this.initButtonsEvent();
+        // Function to set the events from the button presses
+        this.setButtonsEvents();
     }
     /**
      * Function to initialize the elements such as Date and Hour
@@ -46,8 +54,10 @@ class CalcController {
         });
         this.#hourEl.innerHTML = this.currentDate.toLocaleTimeString(this.#locale);
     }
-
-    initButtonsEvent() {
+    /**
+     * Function to set the events from the button presses
+     */
+    setButtonsEvents() {
         /**
          * The querySelectorAll allows us to return all 'g' elements that
          * are children of the 'g' element with the id = buttons and 
@@ -84,7 +94,11 @@ class CalcController {
                  * Button '9' = class 'btn-9'
                  * Button '8' = class 'btn-8'
                  */
-                console.log(button.className.baseVal.replace("btn-", ""));
+                let buttonClass = button.className.baseVal.replace("btn-", "");
+                // Function to execute the proper behavior based on the button pressed
+                this.execBtn(buttonClass);
+
+                console.log(buttonClass);
             });
             /**
              * Here we are adding some events to change the appearance of the mouse
@@ -109,6 +123,149 @@ class CalcController {
         });
     }
 
+    /**
+     * Function to execute the proper behavior based on the button pressed
+     * 
+     * @param button the name of the buttonClass that was pressed 
+     */
+    execBtn(button) {
+
+        switch(button) {
+            // Clear All button function
+            case "ac":
+                this.clearAllFn();
+                break;
+            // Clear Entry button function
+            case "ce":
+                this.clearEntryFn();
+                break;
+            // Percent button function
+            case "percent":
+                this.percentFn();
+                break;
+            // Division button function
+            case "division":
+                this.divisionFn();
+                break;
+            // Multiply button function
+            case "multiply":
+                this.multiplyFn();
+                break;
+            // Subtract button function
+            case "subtract":
+                this.subtractFn();
+                break;
+            // Add button function
+            case "add":
+                this.addFn();
+                break;
+            // Equals button function
+            case "equals":
+                this.equalsFn();
+                break;
+            // Point button function
+            case "point":
+                this.pointFn();
+                break;
+            // Function to be executed to every number button
+            case "0":
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+                this.addOperation(parseInt(button));
+                break;
+            // Default just in case something goes wrong
+            default:
+                this.setError();
+        }
+    }
+
+    /**
+     * Clear All button function
+     */
+    clearAllFn() {
+        this.#operations = [];
+    }
+
+    /**
+     * Clear Entry button function
+     */
+    clearEntryFn() {
+        this.#operations.pop();
+    }
+
+    /**
+     * Percent button function
+     */
+    percentFn() {
+
+    }
+
+    /**
+     * Division button function
+     */
+    divisionFn() {
+
+    }
+
+    /**
+     * Multiply button function
+     */
+    multiplyFn() {
+
+    }
+
+    /**
+     * Subtract button function
+     */
+    subtractFn() {
+
+    }
+
+    /**
+     * Add button function
+     */
+    addFn() {
+
+    }
+
+    /**
+     * Equals button function
+     */
+    equalsFn() {
+
+    }
+
+    /**
+     * Point button function
+     */
+    pointFn() {
+
+    }
+
+    /**
+     * Add some operation to the operations list
+     * @param operation the operation on the  
+     */
+    addOperation(operation) {
+        this.#operations.push(operation);
+
+        console.log(this.#operations);
+    }
+
+    /**
+     * Set error message on display screen
+     */
+    setError() {
+        this.calcDisplay = "Error";
+    }
+    
     get calcDisplay() {
         return this.#calcDisplayEl.innerHTML;
     }
